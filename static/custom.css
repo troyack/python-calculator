@@ -1,0 +1,46 @@
+.calcbody{
+    width: 300px;
+    height: 500px;
+    margin: auto;
+    background-color: black;
+    background-image: url('bgleno.png');
+}
+
+button{
+    width: 200px;
+    background-image: url('btntile.png');
+}
+
+button:hover{
+    opacity: 0.6;
+}
+
+button:active{
+    opacity: 0.3;
+}
+.btndk {
+    background-image: url('btntile2.png');
+}
+
+.btnred {
+    background-image: url('btntile3.png');
+}
+
+.bgtile{
+    background-image:url('bgtile.png');
+}
+
+.bgdisplay{
+    background-image: url('bgdisplay.png');
+    height: 33px;
+}
+
+.baumans {
+    font-family: Baumans;
+}
+
+body{
+    background: radial-gradient(circle, rgb(138, 144, 179) 0%, rgba(44,47,51,1) 100%);
+    font-family: Orbitron;
+    background-size: cover;
+}

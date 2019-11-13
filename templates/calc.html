@@ -1,0 +1,121 @@
+{% extends "template.html" %}
+
+{% block conteudo %}
+
+<div class="my-4 justify-content-around">
+    <div class="card text-center border border-dark calcbody">
+        <div class="card-header bg-dark text-light baumans">
+           <h5> {{ title }} </h5>
+        </div>
+        <div class="card-body bgtile p-2" id="bgtile">
+
+            <label class="col-11 bgdisplay text-dark border border-light rounded h3 text-right my-4 baumans" id="display"></label>
+            
+            <form action="{{ url_for('index') }}" method="post" id="formCalc">
+                <input type="hidden" name="string" id="string">
+            </form>
+            
+            <div class="row p-2 d-flex justify-content-around">
+                <button class="btn bg-light border m-1 col-2" value="7"><h4>7</h4></button>
+                <button class="btn bg-light border m-1 col-2" value="8"><h4>8</h4></button>
+                <button class="btn bg-light border m-1 col-2" value="9"><h4>9</h4></button>
+                <button class="btn btndk border m-1 col-2" value="-"><h4>-</h4></button>
+            </div>
+
+            <div class="row p-2 d-flex justify-content-around">
+                <button class="btn bg-light border m-1 col-2" value="4"><h4>4</h4></button>
+                <button class="btn bg-light border m-1 col-2" value="5"><h4>5</h4></button>
+                <button class="btn bg-light border m-1 col-2" value="6"><h4>6</h4></button>
+                <button class="btn btndk border m-1 col-2" value="+"><h4>+</h4></button>
+            </div>
+
+            <div class="row p-2 d-flex justify-content-around">
+                <button class="btn bg-light border m-1 col-2" value="1"><h4>1</h4></button>
+                <button class="btn bg-light border m-1 col-2" value="2"><h4>2</h4></button>
+                <button class="btn bg-light border m-1 col-2" value="3"><h4>3</h4></button>
+                <button class="btn btndk border m-1 col-2" value="*"><h4>*</h4></button>
+            </div>
+            
+            <div class="row p-2 d-flex justify-content-around">
+                <button class="btn btndk border m-1 col-2" value="/"><h4>/</h4></button>
+                <button class="btn bg-light border m-1 col-2" value="0"><h4>0</h4></button>
+                <button class="btn bg-info border m-1 col-2" value="."><h4>.</h4></button>
+                <button class="btn btnred text-light border m-1 col-2" value="="><h4>=</h4></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var display = "{{result}}";
+    $("#display").html(display);
+    $("#string").val(display);
+    var refresh = true;
+
+    if (display[0].match(/[a-z]/i)){
+        $('#display').addClass('h4');
+    }
+
+    $(document).ready(function(){
+        if ({{ leno }} == 1){
+            $('#bgtile').hide();
+            setTimeout(function(){
+                $('#bgtile').fadeIn(4000);
+            }, 500);
+        }
+    });
+
+
+    $("button").click(function calc(){
+        $('#display').removeClass('h4');
+
+        if (display[0].match(/[a-z]/i)){
+            display = '0';
+            $("#string").val(0);
+        }
+        if ($(this).val() != "="){
+
+            if (refresh == true && !isOperator($(this).val())){
+            display = '0';
+            $("#string").val(0);
+            }
+
+            if (display == '0' && !isOperator($(this).val())) {
+                display = "";
+            }
+            display = display + ($(this).val());
+                if (isOperator(display[display.length - 1])  && isOperator(display[display.length - 2])){
+                    display = display.removeCharAt(display.length - 2);
+                }
+
+            $("#display").html(display);
+            $("#string").val(display);
+            refresh = false;
+        }
+        else {
+            if (isOperator(display[display.length - 1])) {
+                display = display.removeCharAt(display.length - 1);
+                $("#display").html(display);
+                $("#string").val(display);
+            }
+
+            $('#formCalc').submit();
+        }
+    })
+
+    function isOperator(i) {
+        if (i == "-" || i == "+" || i == "/" || i == "*" || i == ".")
+            return true;
+        else
+            return false;
+    }
+
+    //Função que achei na net pra prevenir dois sinais de operação consecutivos
+    String.prototype.removeCharAt = function (i) {
+    var tmp = this.split(''); // convert to an array
+    tmp.splice(i , 1); // remove 1 element from the array
+    return tmp.join(''); // reconstruct the string
+}
+
+</script>
+{% endblock %}
